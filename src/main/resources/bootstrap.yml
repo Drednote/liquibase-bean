@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: liquibase-bean
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/liquibase
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 30
+      connection-timeout: 30000
+      minimum-idle: 3
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        enable_lazy_load_no_trans: true
+    show-sql: true
+  liquibase:
+    change-log: classpath:db.changelog/default/changelog-master.yaml
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  liquibase:
+    change-log: classpath:db.changelog/test/changelog-master.xml
+  jpa:
+    hibernate:
+      ddl-auto: none
